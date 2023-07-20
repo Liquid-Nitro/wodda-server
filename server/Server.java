@@ -230,6 +230,26 @@ public class Server {
                             cObj = findCustomerbyId(id);
                             os.writeObject(cObj);
                         }
+                        else if (action.equals("Add Employee")) {
+                            Employee empObj = (Employee) is.readObject();
+                            addEmployeeToDB(empObj);
+                            os.writeObject(true);
+                            }
+                        else if (action.equals("Find Employee")) {
+                        String staffId = (String) is.readObject();
+                        Employee empObj = findEmployeeById(staffId);
+                        os.writeObject(empObj);
+                        }
+                        else if (action.equals("Delete Employee")) {
+                        String staffId = (String) is.readObject();
+                        deleteEmployeeById(staffId);
+                        os.writeObject(true);
+                        }
+                        else if (action.equals("View Employees")) {
+                        List<Employee> employees = viewAllEmployees();
+                        os.writeObject(employees);
+                        }
+
 
                     }catch(ClassNotFoundException ex){
                         ex.printStackTrace();

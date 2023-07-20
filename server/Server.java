@@ -8,7 +8,27 @@ package server;
  * tables customers,employees, complaints, livechat
  * 
  * customers
+ * cusid 	    varchar(30) primary key
+ * password     varchar(30)
+ * firstname    varchar(30)
+ * lastname     varchar(30)
+ * email        varchar(30)
+ * contactno    varchar(30)
  * 
+ * complaints
+ * complaintid  varchar(30) primary key
+ * cid          varchar(30) foreign key
+ * category     varchar(30)
+ * details  	varchar(50)
+ * 
+ * employees
+ * sid          varchar(30) primary key
+ * password     varchar(30)
+ * firstname    varchar(30)
+ * lastname     varchar(30)
+ * email        varchar(30)
+ * contactno    varchar(30)
+ * role         varchar(30)
  * 
  * 
  * 
@@ -141,6 +161,27 @@ public class Server {
                 e.printStackTrace();
             }
             return cus;
+        }
+
+
+        private void deleteCustomerInDB(String id){
+            String query = String.format("Delete * FROM wodda.customers WHERE cusid = %s",id);
+            try{
+                stmt = dBConn.createStatement();
+                result = stmt.executeQuery(query);
+
+                if (result != null){
+                    os.writeObject(true);
+
+                }else{
+                    os.writeObject(true);//Return flase to client if unsuccessful :(
+                }
+            }catch(IOException ioe){
+                ioe.printStackTrace();  
+                
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
         }
 
         //addEmployeetoDB starts here

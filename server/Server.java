@@ -124,6 +124,7 @@ public class Server {
             return cus;
         }
 
+    //addEmployeetoDB starts here
         private void addEmployeeToDB(Employee emp) {
     String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
                                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
@@ -144,6 +145,27 @@ public class Server {
     }//end of second catch
 }//end of addEmployeetoDB
 
+//find Employee starts here
+    private Employee findEmployeeById(String staffId) {
+    Employee emp = new Employee();
+    String query = String.format("SELECT * FROM employees WHERE staffId = '%s'", staffId);
+    try {
+        stmt = dBConn.createStatement();
+        result = stmt.executeQuery(query);
+        if (result.next()) {
+            emp.setStaffId(result.getString("staffId"));
+            emp.setPassword(result.getString("password"));
+            emp.setFirstName(result.getString("firstName"));
+            emp.setLastName(result.getString("lastName"));
+            emp.setEmail(result.getString("email"));
+            emp.setContactNumber(result.getString("contactNumber"));
+            emp.setRole(result.getString("role"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return emp;
+}//find Employee ends here
         private void waitForRequests(){
             String action = "";
             getDatabaseConnection();

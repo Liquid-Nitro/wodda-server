@@ -59,7 +59,7 @@ public class Server {
     private static Connection getDatabaseConnection(){
             if (dBConn == null){
                 try{
-                    String url = "jdbc:mysql://localhost:3306/dblab";
+                    String url = "jdbc:mysql://localhost:3306/wodda";
                     dBConn = DriverManager.getConnection(url, "root", "");
                     JOptionPane.showMessageDialog(null, "DB Connection Established", "CONNECTION STATUS", JOptionPane.INFORMATION_MESSAGE);
                 }catch(SQLException ex){
@@ -82,5 +82,56 @@ public class Server {
             }
         }
 
+        
 
+        private void addCustomerToDB(Customer cus){
+            String sql = String.format("INSERT INTO wodda. `customers` (cusid, password, firstname, lastname, email, contactno) VALUES('%s','%s','%s','%s','%s','%s)'",cus.getCustomerId(),cus.getPassword(),cus.getFirstName(),cus.getLastName(),cus.getEmail(), cus.getContactNumber());
+            try{
+                stmt = dBConn.createStatement();
+                if(stmt.executeUpdate(sql) == 1){
+                    os.writeObject(true);//Return true to client if successful
+
+                }else{
+                    os.writeObject(true);//Return flase to client if unsuccessful :(
+                }
+            }catch(IOException ioe){
+                //save logs for later they are kind of annoying
+                ioe.printStackTrace();
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+
+        private Customer findCustomerbyId(String id){
+            Customer cus = new Customer();
+            String query = String.format("SELECT * FROM wodda.customers WHERE cusid = %s",id);
+            try{
+                stmt = dBConn.createStatement();
+                result = stmt.executeQuery(query);
+                if(result.next()){
+                    cus.setCustomerId(result.getString(1));
+                    cus.setPassword(result.getString(2));
+                    cus.setFirstName(result.getString(3));
+                    cus.setLastName(result.getString(4));
+                    cus.setEmail(result.getString(5));
+                     cus.setContactNumber(result.getString(6));
+
+                }
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+            return cus;
+        }
+
+        private void addEmployeeToDB(Customer cus){
+            String sql = String.format("");
+        }
+
+        private void waitFOrRequests(){
+            String action = "";
+        }
 }
+
+
+
+

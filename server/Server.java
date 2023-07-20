@@ -124,9 +124,25 @@ public class Server {
             return cus;
         }
 
-        private void addEmployeeToDB(Customer cus){
-            String sql = String.format("");
+        private void addEmployeeToDB(Employee emp) {
+    String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
+                               "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                               emp.getStaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
+                               emp.getEmail(), emp.getContactNumber(), emp.getRole());
+    
+    try {
+        stmt = dBConn.createStatement();
+        if (stmt.executeUpdate(sql) == 1) {
+            os.writeObject(true); // Return true to the client if successful
+        } else {
+            os.writeObject(false); // Return false to the client if unsuccessful
         }
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }//end of second catch
+}//end of addEmployeetoDB
 
         private void waitForRequests(){
             String action = "";

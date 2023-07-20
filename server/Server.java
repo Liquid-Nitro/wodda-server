@@ -135,6 +135,8 @@ public class Server {
 
             try{
                 while(true){
+                    connection = servSock.accept();
+                    this.configureStreams();
                     try{
                         action = (String) is.readObject();
                         if(action.equals("Add Student")){

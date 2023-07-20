@@ -1,5 +1,6 @@
 package server;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,7 +27,7 @@ public class Server {
     
     public Server(){
         this.createConnection();
-        //this.waitForRequests();
+        this.waitForRequests();
 
     }
 
@@ -114,7 +115,7 @@ public class Server {
                     cus.setFirstName(result.getString(3));
                     cus.setLastName(result.getString(4));
                     cus.setEmail(result.getString(5));
-                     cus.setContactNumber(result.getString(6));
+                    cus.setContactNumber(result.getString(6));
 
                 }
             }catch(SQLException e){
@@ -127,8 +128,41 @@ public class Server {
             String sql = String.format("");
         }
 
-        private void waitFOrRequests(){
+        private void waitForRequests(){
             String action = "";
+            getDatabaseConnection();
+            Customer cObj = null;
+
+            try{
+                while(true){
+                    try{
+                        action = (String) is.readObject();
+                        if(action.equals("Add Student")){
+                            cObj = (Customer) is.readObject();
+                            addCustomerToDB(cObj);
+                            os.writeObject(true);
+                        } else if(action.equals("Find Customer")){
+                            String id = (String) is.readObject();
+                            //call method to find customer based on the id
+                            cObj = findCustomerbyId(id);
+                            os.writeObject(cObj);
+                        }
+
+                    }catch(ClassNotFoundException ex){
+                        ex.printStackTrace();
+
+                    }catch(ClassCastException ex){
+                        ex.printStackTrace();
+                    }
+                    this.closeConnection();
+                   
+                }
+            }catch(EOFException ex){
+                System.out.println("Client has terminated connections with the server");
+
+            }catch(IOException ex){
+                ex.printStackTrace();
+            }
         }
 }
 

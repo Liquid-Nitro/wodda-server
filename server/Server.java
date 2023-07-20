@@ -185,7 +185,30 @@ public class Server {
         e.printStackTrace();
     }
 }//delete employee ends here
- 
+
+    //viewEmployees
+    private List<Employee> viewAllEmployees() {
+    List<Employee> employees = new ArrayList<>();
+    String query = "SELECT * FROM employees";
+    try {
+        stmt = dBConn.createStatement();
+        result = stmt.executeQuery(query);
+        while (result.next()) {
+            Employee emp = new Employee();
+            emp.setStaffId(result.getString("staffId"));
+            emp.setPassword(result.getString("password"));
+            emp.setFirstName(result.getString("firstName"));
+            emp.setLastName(result.getString("lastName"));
+            emp.setEmail(result.getString("email"));
+            emp.setContactNumber(result.getString("contactNumber"));
+            emp.setRole(result.getString("role"));
+            employees.add(emp);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return employees;
+}//view employees end here
         private void waitForRequests(){
             String action = "";
             getDatabaseConnection();

@@ -11,15 +11,7 @@ public class Employee implements Serializable {
     private String contactNumber;
     private String role;
 
-    
-  public CusController() {
-       
-    }
-     public CusController() {
-        // Get the database connection using DatabaseConnection
-        
-    }
-
+   
     public Employee() {
     }
 
@@ -27,7 +19,6 @@ public class Employee implements Serializable {
 
     public Employee(String staffId,String username,String password,String firstName,String lastName,String email,String contactNumber, String role) {
         this.staffId=staffId;
-        this.username=username;
         this.password=password;
         this.firstName=firstName;
         this.lastName=lastName;
@@ -85,14 +76,18 @@ public class Employee implements Serializable {
         this.password = password;
     }
 
-    }
+    
     public String getRole() {
         return this.role;
     }
 
-    public void setRole(String role) {
-        this.username = role;
+
+
+    public void setRole(String string) {
+        this.role = string;
     }
+
+    
 
    
 

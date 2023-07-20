@@ -1,5 +1,21 @@
 package server;
 
+
+/*
+ * The following will have information rgarding the database
+ * Datbase name wodda
+ * 
+ * tables customers,employees, complaints, livechat
+ * 
+ * customers
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -129,7 +145,7 @@ public class Server {
         private void addEmployeeToDB(Employee emp) {
     String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
                                "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-                               emp.getStaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
+                               emp.getstaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
                                emp.getEmail(), emp.getContactNumber(), emp.getRole());
     
     try {
@@ -154,7 +170,7 @@ public class Server {
         stmt = dBConn.createStatement();
         result = stmt.executeQuery(query);
         if (result.next()) {
-            emp.setStaffId(result.getString("staffId"));
+            emp.setstaffId(result.getString("staffId"));
             emp.setPassword(result.getString("password"));
             emp.setFirstName(result.getString("firstName"));
             emp.setLastName(result.getString("lastName"));
@@ -195,7 +211,7 @@ public class Server {
         result = stmt.executeQuery(query);
         while (result.next()) {
             Employee emp = new Employee();
-            emp.setStaffId(result.getString("staffId"));
+            emp.setstaffId(result.getString("staffId"));
             emp.setPassword(result.getString("password"));
             emp.setFirstName(result.getString("firstName"));
             emp.setLastName(result.getString("lastName"));

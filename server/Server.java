@@ -166,6 +166,25 @@ public class Server {
     }
     return emp;
 }//find Employee ends here
+
+//delete employee starts here
+   private void deleteEmployeeById(String staffId) {
+    String sql = String.format("DELETE FROM employees WHERE staffId = '%s'", staffId);
+
+    try {
+        stmt = dBConn.createStatement();
+        if (stmt.executeUpdate(sql) == 1) {
+            os.writeObject(true); // Return true to the client if successful
+        } else {
+            os.writeObject(false); // Return false to the client if unsuccessful
+        }
+    } catch (IOException ioe) {
+        ioe.printStackTrace();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}//delete employee ends here
+ 
         private void waitForRequests(){
             String action = "";
             getDatabaseConnection();

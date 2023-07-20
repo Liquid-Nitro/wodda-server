@@ -1,4 +1,4 @@
-package server;
+package client;
 
 import java.io.Serializable;
 
@@ -9,26 +9,9 @@ public class Customer implements Serializable {
     private String email;
     private String contactNumber;
     private String password;
-    private String nature;
+	private String nature;
 	private String complaint;
-    
 
-
-    public Customer() {
-    }
-
-
-
-    public Customer(String customerId, String firstName, String lastName, String email, String contactNumber, String password, String nature, String complaint) {
-        this.customerId = customerId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.contactNumber = contactNumber;
-        this.password = password;
-        this.nature = nature;
-        this.complaint = complaint;
-    }
     public Customer(String customerId,String pass, String firstName, String lastName, String email, String contactNumber) {
         this.customerId = customerId;
         this.firstName = firstName;
@@ -37,6 +20,16 @@ public class Customer implements Serializable {
         this.contactNumber = contactNumber;
         this.nature = "";
         this.complaint = "";
+
+    }
+    public Customer(Customer c) {
+        this.customerId = c.customerId;
+        this.firstName = c.firstName;
+        this.lastName = c.lastName;
+        this.email = c.email;
+        this.contactNumber = c.contactNumber;
+        this.nature = c.nature;
+        this.complaint = c.complaint;
 
     }
 
@@ -106,4 +99,13 @@ public class Customer implements Serializable {
     }
 
 
+    public Customer() {
+    }
+
+
+
+
+
+
+	
 }

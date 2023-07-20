@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
+import client.Customer;
+
 public class Server {
 
     private ServerSocket servSock;
@@ -103,7 +105,7 @@ public class Server {
         
 
         private void addCustomerToDB(Customer cus){
-            String sql = String.format("INSERT INTO wodda. `customers` (cusid, password, firstname, lastname, email, contactno) VALUES('%s','%s','%s','%s','%s','%s)'",cus.getCustomerId(),cus.getPassword(),cus.getFirstName(),cus.getLastName(),cus.getEmail(), cus.getContactNumber());
+            String sql = String.format("INSERT INTO wodda. `customers` (cusid, password, firstname, lastname, email, contactno) VALUES('%s','%s','%s','%s','%s','%s')",cus.getCustomerId(),cus.getPassword(),cus.getFirstName(),cus.getLastName(),cus.getEmail(), cus.getContactNumber());
             try{
                 stmt = dBConn.createStatement();
                 if(stmt.executeUpdate(sql) == 1){
@@ -141,66 +143,67 @@ public class Server {
             return cus;
         }
 
-    //addEmployeetoDB starts here
+        //addEmployeetoDB starts here
         private void addEmployeeToDB(Employee emp) {
-    String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
-                               "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-                               emp.getstaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
-                               emp.getEmail(), emp.getContactNumber(), emp.getRole());
+            String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
+                                    "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+                                    emp.getstaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
+                                    emp.getEmail(), emp.getContactNumber(), emp.getRole());
     
-    try {
-        stmt = dBConn.createStatement();
-        if (stmt.executeUpdate(sql) == 1) {
-            os.writeObject(true); // Return true to the client if successful
-        } else {
-            os.writeObject(false); // Return false to the client if unsuccessful
-        }
-    } catch (IOException ioe) {
-        ioe.printStackTrace();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }//end of second catch
-}//end of addEmployeetoDB
+            try {
+                stmt = dBConn.createStatement();
+                if (stmt.executeUpdate(sql) == 1) {
+                    os.writeObject(true); // Return true to the client if successful
+                } else {
+                    os.writeObject(false); // Return false to the client if unsuccessful
+                }
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }//end of second catch
+        }//end of addEmployeetoDB
 
-//find Employee starts here
+
+    //find Employee starts here
     private Employee findEmployeeById(String staffId) {
-    Employee emp = new Employee();
-    String query = String.format("SELECT * FROM employees WHERE staffId = '%s'", staffId);
-    try {
-        stmt = dBConn.createStatement();
-        result = stmt.executeQuery(query);
-        if (result.next()) {
-            emp.setstaffId(result.getString("staffId"));
-            emp.setPassword(result.getString("password"));
-            emp.setFirstName(result.getString("firstName"));
-            emp.setLastName(result.getString("lastName"));
-            emp.setEmail(result.getString("email"));
-            emp.setContactNumber(result.getString("contactNumber"));
-            emp.setRole(result.getString("role"));
+        Employee emp = new Employee();
+        String query = String.format("SELECT * FROM employees WHERE staffId = '%s'", staffId);
+        try {
+            stmt = dBConn.createStatement();
+            result = stmt.executeQuery(query);
+            if (result.next()) {
+                emp.setstaffId(result.getString("staffId"));
+                emp.setPassword(result.getString("password"));
+                emp.setFirstName(result.getString("firstName"));
+                emp.setLastName(result.getString("lastName"));
+                emp.setEmail(result.getString("email"));
+                emp.setContactNumber(result.getString("contactNumber"));
+                emp.setRole(result.getString("role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return emp;
-}//find Employee ends here
+        return emp;
+    }//find Employee ends here
 
-//delete employee starts here
-   private void deleteEmployeeById(String staffId) {
-    String sql = String.format("DELETE FROM employees WHERE staffId = '%s'", staffId);
+    //delete employee starts here
+    private void deleteEmployeeById(String staffId) {
+        String sql = String.format("DELETE FROM employees WHERE staffId = '%s'", staffId);
 
-    try {
-        stmt = dBConn.createStatement();
-        if (stmt.executeUpdate(sql) == 1) {
-            os.writeObject(true); // Return true to the client if successful
-        } else {
-            os.writeObject(false); // Return false to the client if unsuccessful
+        try {
+            stmt = dBConn.createStatement();
+            if (stmt.executeUpdate(sql) == 1) {
+                os.writeObject(true); // Return true to the client if successful
+            } else {
+                os.writeObject(false); // Return false to the client if unsuccessful
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (IOException ioe) {
-        ioe.printStackTrace();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-}//delete employee ends here
+    }//delete employee ends here
 
     //viewEmployees
     private List<Employee> viewAllEmployees() {
@@ -224,8 +227,10 @@ public class Server {
         e.printStackTrace();
     }
     return employees;
-}//view employees end here
-        private void waitForRequests(){
+    }   //view employees end here
+
+
+    private void waitForRequests(){
             String action = "";
             getDatabaseConnection();
             Customer cObj = null;
@@ -236,7 +241,7 @@ public class Server {
                     this.configureStreams();
                     try{
                         action = (String) is.readObject();
-                        if(action.equals("Add Student")){
+                        if(action.equals("Add Customer")){
                             cObj = (Customer) is.readObject();
                             addCustomerToDB(cObj);
                             os.writeObject(true);
@@ -283,7 +288,15 @@ public class Server {
                 ex.printStackTrace();
             }
         }
+
+
+
+
 }
+
+
+
+
 
 
 

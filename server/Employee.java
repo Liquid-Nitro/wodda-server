@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Employee implements Serializable {
     private String staffId;
-    private String username;
     private String password;
     private String firstName;
     private String lastName;
@@ -13,7 +12,13 @@ public class Employee implements Serializable {
     private String role;
 
     
-
+  public CusController() {
+       
+    }
+     public CusController() {
+        // Get the database connection using DatabaseConnection
+        
+    }
 
     public Employee() {
     }
@@ -80,18 +85,12 @@ public class Employee implements Serializable {
         this.password = password;
     }
 
-   public String getUsername() {
-        return this.username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
     public String getRole() {
         return this.role;
     }
 
-    public void setUsername(String role) {
+    public void setRole(String role) {
         this.username = role;
     }
 

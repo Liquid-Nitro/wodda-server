@@ -124,9 +124,8 @@ public class Server {
         }
 
         
-        //addComplaintToDB(){
-         //   String sql = String.format("INSERT INTO wodda. `compliants` (cid, category,details) VALUES()")
-        //}
+               
+        
         private void addCustomerToDB(Customer cus){
             String sql = String.format("INSERT INTO wodda. `customers` (cusid, password, firstname, lastname, email, contactno) VALUES('%s','%s','%s','%s','%s','%s')",cus.getCustomerId(),cus.getPassword(),cus.getFirstName(),cus.getLastName(),cus.getEmail(), cus.getContactNumber());
             try{
@@ -135,7 +134,7 @@ public class Server {
                     os.writeObject(true);//Return true to client if successful
 
                 }else{
-                    os.writeObject(true);//Return flase to client if unsuccessful :(
+                    os.writeObject(false);//Return flase to client if unsuccessful :(
                 }
             }catch(IOException ioe){
                 //save logs for later they are kind of annoying
@@ -177,7 +176,7 @@ public class Server {
                     os.writeObject(true);
 
                 }else{
-                    os.writeObject(true);//Return flase to client if unsuccessful :(
+                    os.writeObject(false);//Return flase to client if unsuccessful :(
                 }
             }catch(IOException ioe){
                 ioe.printStackTrace();  
@@ -298,10 +297,10 @@ public class Server {
     }   //view employees end here
 
     // addComplaintToDB starts here
-    private void addComplaintToDB(Complaint complaint) {
+    private void addComplaintToDB(Customer cus ) {
         String sql = String.format("INSERT INTO complaints (complaintid, cid, category, details) " +
-                "VALUES ('%s', '%s', '%s', '%s')",
-                complaint.getComplaintId(), complaint.getCustomerId(), complaint.getCategory(), complaint.getDetails());
+                "VALUES ('%s', '%s', '%s')",
+                cus.getCustomerId(), cus.getNature(), cus.getComplaint());
 
         try {
             stmt = dBConn.createStatement();

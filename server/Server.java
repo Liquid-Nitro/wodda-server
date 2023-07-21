@@ -295,6 +295,25 @@ public class Server {
     return employees;
     }   //view employees end here
 
+    // addComplaintToDB starts here
+    private void addComplaintToDB(Complaint complaint) {
+        String sql = String.format("INSERT INTO complaints (complaintid, cid, category, details) " +
+                "VALUES ('%s', '%s', '%s', '%s')",
+                complaint.getComplaintId(), complaint.getCustomerId(), complaint.getCategory(), complaint.getDetails());
+
+        try {
+            stmt = dBConn.createStatement();
+            if (stmt.executeUpdate(sql) == 1) {
+                os.writeObject(true); // Return true to the client if successful
+            } else {
+                os.writeObject(false); // Return false to the client if unsuccessful
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }// end of addComplaintToDB
 
     private void waitForRequests(){
             String action = "";

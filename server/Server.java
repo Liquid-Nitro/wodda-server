@@ -215,13 +215,13 @@ public class Server {
             stmt = dBConn.createStatement();
             result = stmt.executeQuery(query);
             if (result.next()) {
-                emp.setstaffId(result.getString("staffId"));
-                emp.setPassword(result.getString("password"));
-                emp.setFirstName(result.getString("firstName"));
-                emp.setLastName(result.getString("lastName"));
-                emp.setEmail(result.getString("email"));
-                emp.setContactNumber(result.getString("contactNumber"));
-                emp.setRole(result.getString("role"));
+                emp.setstaffId(result.getString(1));
+                emp.setPassword(result.getString(2));
+                emp.setFirstName(result.getString(3));
+                emp.setLastName(result.getString(4));
+                emp.setEmail(result.getString(5));
+                emp.setContactNumber(result.getString(6));
+                emp.setRole(result.getString(7));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -276,6 +276,7 @@ public class Server {
             String action = "";
             getDatabaseConnection();
             Customer cObj = null;
+            Employee e = null;
 
             try{
                 while(true){
@@ -299,9 +300,9 @@ public class Server {
                             os.writeObject(true);
                             }
                         else if (action.equals("Find Employee")) {
-                        String staffId = (String) is.readObject();
-                        Employee empObj = findEmployeeById(staffId);
-                        os.writeObject(empObj);
+                            String id = (String) is.readObject();
+                            e = findEmployeeById(id);
+                            os.writeObject(e);
                         }
                         else if (action.equals("Delete Employee")) {
                         String staffId = (String) is.readObject();

@@ -8,7 +8,7 @@ package server;
  * tables customers,employees, complaints, livechat
  * 
  * customers
- * cusid 	    varchar(30) primary key
+ * cusid 	    varchar(30) primary key auto_increment
  * password     varchar(30)
  * firstname    varchar(30)
  * lastname     varchar(30)
@@ -124,7 +124,9 @@ public class Server {
         }
 
         
-
+        //addComplaintToDB(){
+         //   String sql = String.format("INSERT INTO wodda. `compliants` (cid, category,details) VALUES()")
+        //}
         private void addCustomerToDB(Customer cus){
             String sql = String.format("INSERT INTO wodda. `customers` (cusid, password, firstname, lastname, email, contactno) VALUES('%s','%s','%s','%s','%s','%s')",cus.getCustomerId(),cus.getPassword(),cus.getFirstName(),cus.getLastName(),cus.getEmail(), cus.getContactNumber());
             try{

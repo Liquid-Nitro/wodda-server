@@ -164,7 +164,7 @@ public class Server {
             return cus;
         }
 
-
+        //deleteCustomerInDB
         private void deleteCustomerInDB(String id){
             String query = String.format("Delete * FROM wodda.customers WHERE cusid = %s",id);
             try{
@@ -184,6 +184,30 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+        // viewAllCustomers
+    private List<Customer> viewAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customers";
+        try {
+            stmt = dBConn.createStatement();
+            result = stmt.executeQuery(query);
+            while (result.next()) {
+                Customer cus = new Customer();
+                cus.setCustomerId(result.getString("cusid"));
+                cus.setPassword(result.getString("password"));
+                cus.setFirstName(result.getString("firstname"));
+                cus.setLastName(result.getString("lastname"));
+                cus.setEmail(result.getString("email"));
+                cus.setContactNumber(result.getString("contactno"));
+                customers.add(cus);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }//end of viewAll Customers
+
 
         //addEmployeetoDB starts here
         private void addEmployeeToDB(Employee emp) {

@@ -166,7 +166,7 @@ public class Server {
             return cus;
         }
 
-
+        //deleteCustomerInDB
         private void deleteCustomerInDB(String id){
             String query = String.format("Delete * FROM wodda.customers WHERE cusid = %s",id);
             try{
@@ -186,6 +186,30 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+        // viewAllCustomers
+    private List<Customer> viewAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT * FROM customers";
+        try {
+            stmt = dBConn.createStatement();
+            result = stmt.executeQuery(query);
+            while (result.next()) {
+                Customer cus = new Customer();
+                cus.setCustomerId(result.getString("cusid"));
+                cus.setPassword(result.getString("password"));
+                cus.setFirstName(result.getString("firstname"));
+                cus.setLastName(result.getString("lastname"));
+                cus.setEmail(result.getString("email"));
+                cus.setContactNumber(result.getString("contactno"));
+                customers.add(cus);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }//end of viewAll Customers
+
 
         //addEmployeetoDB starts here
         private void addEmployeeToDB(Employee emp) {
@@ -273,6 +297,25 @@ public class Server {
     return employees;
     }   //view employees end here
 
+    // addComplaintToDB starts here
+    private void addComplaintToDB(Complaint complaint) {
+        String sql = String.format("INSERT INTO complaints (complaintid, cid, category, details) " +
+                "VALUES ('%s', '%s', '%s', '%s')",
+                complaint.getComplaintId(), complaint.getCustomerId(), complaint.getCategory(), complaint.getDetails());
+
+        try {
+            stmt = dBConn.createStatement();
+            if (stmt.executeUpdate(sql) == 1) {
+                os.writeObject(true); // Return true to the client if successful
+            } else {
+                os.writeObject(false); // Return false to the client if unsuccessful
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }// end of addComplaintToDB
 
     private void waitForRequests(){
             String action = "";

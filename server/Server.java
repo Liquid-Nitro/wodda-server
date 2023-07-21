@@ -52,6 +52,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import client.Customer;
+import client.Employee;
 
 public class Server {
 
@@ -170,7 +171,7 @@ public class Server {
                 stmt = dBConn.createStatement();
                 result = stmt.executeQuery(query);
 
-                if (result != null){
+                if (stmt.executeUpdate(query) == 1){
                     os.writeObject(true);
 
                 }else{
@@ -186,7 +187,7 @@ public class Server {
 
         //addEmployeetoDB starts here
         private void addEmployeeToDB(Employee emp) {
-            String sql = String.format("INSERT INTO employees (staffId, password, firstName, lastName, email, contactNumber, role) " +
+            String sql = String.format("INSERT INTO employees (sid, password, firstName, lastName, email, contactno, role) " +
                                     "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                                     emp.getstaffId(), emp.getPassword(), emp.getFirstName(), emp.getLastName(),
                                     emp.getEmail(), emp.getContactNumber(), emp.getRole());
@@ -209,7 +210,7 @@ public class Server {
     //find Employee starts here
     private Employee findEmployeeById(String staffId) {
         Employee emp = new Employee();
-        String query = String.format("SELECT * FROM employees WHERE staffId = '%s'", staffId);
+        String query = String.format("SELECT * FROM employees WHERE sid = '%s'", staffId);
         try {
             stmt = dBConn.createStatement();
             result = stmt.executeQuery(query);

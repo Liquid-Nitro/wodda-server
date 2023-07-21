@@ -336,10 +336,11 @@ public class Server {
                             String id = (String) is.readObject();
                             //call method to find customer based on the id
                             cObj = findCustomerbyId(id);
-                            if (cObj == null){
-                                System.out.println(" Object recieved from findCustomer functin is null");
-                            }
                             os.writeObject(cObj);
+
+                            String cid = (String) is.readObject();
+                            String cpass = (String) is.readObject();
+                            
                         }
                         else if (action.equals("Add Employee")) {
                             Employee empObj = (Employee) is.readObject();
